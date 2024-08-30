@@ -75,7 +75,7 @@ public class CompanyManager {
         }
     }
 
-    public void updateCompanyById(Company company) {
+    public void updateCompany(Company company) {
         String sql = "UPDATE company SET companyName = ?, companyCountry = ? WHERE companyId = ?";
         try(Statement st = connection.createStatement()) {
             st.executeUpdate(String.format(sql, company.getCompanyName(), company.getCompanyCountry(), company.getCompanyId()));
@@ -83,6 +83,21 @@ public class CompanyManager {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public List<Company> getAll() {
+        String sql = "SELECT * FROM company";
+        List<Company> companyList = new ArrayList<>();
+        try{
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                companyList.add(getCompanyFromResultSet(rs));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return companyList;
     }
 
 }
