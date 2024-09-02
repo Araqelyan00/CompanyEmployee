@@ -1,4 +1,4 @@
-package companyEmployee.servlet;
+package companyEmployee.servlet.company;
 
 import companyEmployee.manager.CompanyManager;
 import companyEmployee.model.Company;
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

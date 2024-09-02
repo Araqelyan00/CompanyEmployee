@@ -1,4 +1,4 @@
-package companyEmployee.servlet;
+package companyEmployee.servlet.company;
 
 import companyEmployee.manager.CompanyManager;
 import companyEmployee.model.Company;
@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 public class CompaniesServlet extends HttpServlet {
 
     private CompanyManager companyManager = new CompanyManager();
+
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -1,0 +1,16 @@
+package companyEmployee.util;
+
+import java.util.regex.Pattern;
+
+public class EmailUtil {
+    private static final String EMAIL_REGEX = "^(.+)@(\\S+)$";
+    private EmailUtil() {
+
+    }
+
+    public static boolean patternMatches(String email) {
+        return Pattern.compile(EMAIL_REGEX).matcher(email).matches();
+    }
+
+
+}

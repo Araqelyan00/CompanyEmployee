@@ -15,6 +15,6 @@ public class Employee {
     private String employeeName;
     private String employeeSurname;
     private String employeeEmail;
-    private String employeePicLink;
+    private String employeePicName;
     private Company company;
 }

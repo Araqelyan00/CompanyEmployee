@@ -1,4 +1,4 @@
-package companyEmployee.servlet;
+package companyEmployee.servlet.company;
 
 import companyEmployee.manager.CompanyManager;
 import companyEmployee.model.Company;
