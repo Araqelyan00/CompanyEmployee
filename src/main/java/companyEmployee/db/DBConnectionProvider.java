@@ -11,7 +11,7 @@ public class DBConnectionProvider {
     @Getter
     private final static DBConnectionProvider instance = new DBConnectionProvider();
     private Connection connection;
-    private static final String url = "jdbc:mysql://localhost:3306/company_employee";
+    private static final String url = "jdbc:mysql://localhost:3306/companyandemployee?useUnicode=true&characterEncoding=UTF-8";
     private static final String user = "root";
     private static final String password = "Adjareguju1@";
 

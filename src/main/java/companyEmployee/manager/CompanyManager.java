@@ -28,7 +28,7 @@ public class CompanyManager {
     }
 
     public Company getCompanyByID(int companyId) {
-        String sql = "SELECT * FROM company WHERE companyId = ?";
+        String sql = "SELECT * FROM company WHERE companyId = " + companyId;
         try (Statement st = connection.createStatement()){
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
@@ -43,7 +43,7 @@ public class CompanyManager {
 
     private Company getCompanyFromResultSet(ResultSet rs) throws SQLException {
         Company company = new Company();
-        company.setCompanyId(rs.getInt("companyId"));
+        company.setCompanyId(rs.getInt("companyID"));
         company.setCompanyName(rs.getString("companyName"));
         company.setCompanyCountry(rs.getString("companyCountry"));
         return company;
@@ -75,15 +75,25 @@ public class CompanyManager {
         }
     }
 
-    public void updateCompany(Company company) {
-        String sql = "UPDATE company SET companyName = ?, companyCountry = ? WHERE companyId = ?";
-        try(Statement st = connection.createStatement()) {
-            st.executeUpdate(String.format(sql, company.getCompanyName(), company.getCompanyCountry(), company.getCompanyId()));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
+//    public void updateCompany(Company company) {
+//        String sql = "UPDATE company SET companyName = ?, companyCountry = ? WHERE companyID = ?";
+//        try(Statement st = connection.createStatement()) {
+//            st.executeUpdate(String.format(sql, company.getCompanyName(), company.getCompanyCountry(), company.getCompanyId()));
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+public void updateCompany(Company company) {
+    String sql = "UPDATE company SET companyName = ?, companyCountry = ? WHERE companyID = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, company.getCompanyName());
+        ps.setString(2, company.getCompanyCountry());
+        ps.setInt(3, company.getCompanyId());
+        ps.executeUpdate();
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
     }
+}
 
     public List<Company> getAll() {
         String sql = "SELECT * FROM company";

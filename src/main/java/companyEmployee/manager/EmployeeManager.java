@@ -1,7 +1,6 @@
 package companyEmployee.manager;
 
 import companyEmployee.db.DBConnectionProvider;
-import companyEmployee.model.Company;
 import companyEmployee.model.Employee;
 
 import java.sql.*;
@@ -15,7 +14,7 @@ public class EmployeeManager {
     public void saveEmployee(Employee employee) {
         try (Statement st = connection.createStatement()) {
             String sql = "INSERT INTO employee(employeeName, employeeSurname, employeeEmail, employeePicLink, companyId) VALUES ('%s', '%s', '%s', '%s', '%d')";
-            String sqlFormatted = String.format(sql, employee.getEmployeeName(), employee.getEmployeeSurname(), employee.getEmployeeEmail(), employee.getEmployeePicLink(), employee.getCompany().getCompanyId());
+            String sqlFormatted = String.format(sql, employee.getEmployeeName(), employee.getEmployeeSurname(), employee.getEmployeeEmail(), employee.getEmployeePicName(), employee.getCompany().getCompanyId());
             st.executeUpdate(sqlFormatted, Statement.RETURN_GENERATED_KEYS);
             ResultSet rs = st.getGeneratedKeys();
             if (rs.next()) {
@@ -28,7 +27,7 @@ public class EmployeeManager {
     }
 
     public Employee getEmployeeById(int employeeId) {
-        String sql = "SELECT * FROM employee WHERE employeeId = ?";
+        String sql = "SELECT * FROM employee WHERE employeeId = " + employeeId;
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
@@ -42,12 +41,12 @@ public class EmployeeManager {
 
     private Employee getEmployeeFromResultSet(ResultSet rs) throws SQLException {
         Employee employee = new Employee();
-        employee.setEmployeeId(rs.getInt("employeeId"));
+        employee.setEmployeeId(rs.getInt("employeeID"));
         employee.setEmployeeName(rs.getString("employeeName"));
         employee.setEmployeeSurname(rs.getString("employeeSurname"));
         employee.setEmployeeEmail(rs.getString("employeeEmail"));
-        employee.setEmployeePicLink(rs.getString("employeePicLink"));
-        int companyId = rs.getInt("companyId");
+        employee.setEmployeePicName(rs.getString("employeePicLink"));
+        int companyId = rs.getInt("companyID");
         employee.setCompany(companyManager.getCompanyByID(companyId));
         return employee;
     }
@@ -111,7 +110,7 @@ public class EmployeeManager {
         String sql = "UPDATE employee SET employeeName = ?, employeeSurname = ?, employeeEmail = ?, employeePicLink = ?, companyId = ? WHERE employeeId = ?";
         try {
             Statement st = connection.createStatement();
-            st.executeUpdate(String.format(sql, employee.getEmployeeName(), employee.getEmployeeSurname(), employee.getEmployeeEmail(), employee.getEmployeePicLink(), employee.getCompany().getCompanyId(), employee.getEmployeeId()));
+            st.executeUpdate(String.format(sql, employee.getEmployeeName(), employee.getEmployeeSurname(), employee.getEmployeeEmail(), employee.getEmployeePicName(), employee.getCompany().getCompanyId(), employee.getEmployeeId()));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

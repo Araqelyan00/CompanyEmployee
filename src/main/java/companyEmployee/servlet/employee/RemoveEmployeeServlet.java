@@ -4,11 +4,11 @@ import companyEmployee.constants.SharedConstant;
 import companyEmployee.manager.EmployeeManager;
 import companyEmployee.model.Employee;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class RemoveEmployeeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
+        int id = Integer.parseInt(req.getParameter("employeeID"));
         Employee byID = employeeManager.getEmployeeById(id);
         if (byID != null) {
             if (byID.getEmployeePicName() != null || byID.getEmployeePicName().equalsIgnoreCase("null")) {

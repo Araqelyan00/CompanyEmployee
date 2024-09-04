@@ -1,17 +1,16 @@
-package companyEmployee.servlet;
+package companyEmployee.servlet.other;
 
 import companyEmployee.manager.UserManager;
 import companyEmployee.model.User;
 import companyEmployee.model.UserType;
 import companyEmployee.util.EmailUtil;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
@@ -19,11 +18,12 @@ public class RegisterServlet extends HttpServlet {
     private UserManager userManager = new UserManager();
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name");
-        String surname = req.getParameter("surname");
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-        UserType type = UserType.valueOf(req.getParameter("type"));
+        req.setCharacterEncoding("UTF-8");
+        String name = req.getParameter("userName");
+        String surname = req.getParameter("userSurname");
+        String email = req.getParameter("userEmail");
+        String password = req.getParameter("userPassword");
+        UserType type = UserType.valueOf(req.getParameter("userType"));
         String str = "";
 
         if (name == null || name.trim().equals("")) {
@@ -58,7 +58,7 @@ public class RegisterServlet extends HttpServlet {
             resp.sendRedirect("/");
         } else {
             req.setAttribute("str", str);
-            req.getRequestDispatcher("/register.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/register.jsp").forward(req, resp);
         }
     }
 }

@@ -3,11 +3,11 @@ package companyEmployee.servlet.company;
 import companyEmployee.manager.CompanyManager;
 import companyEmployee.model.Company;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -20,15 +20,15 @@ public class CreateCompanyServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("countriesList", countries);
+        req.setAttribute("companyCountry", countries);
         req.getRequestDispatcher("WEB-INF/createCompany.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        String name = req.getParameter("name");
-        String country = req.getParameter("country");
+        String name = req.getParameter("companyName");
+        String country = req.getParameter("companyCountry");
         Company company = new Company();
         company.setCompanyName(name);
         company.setCompanyCountry(country);

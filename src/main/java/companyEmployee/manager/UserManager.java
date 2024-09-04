@@ -10,14 +10,14 @@ public class UserManager {
     private Connection connection = DBConnectionProvider.getInstance().getConnection();
 
     public void saveUser(User user) {
-        String sql = "INSERT INTO user (userName, userSurname, userEmail, userPassword, userType) VALUES (?,?,?,?,?)";
         try {
+            String sql = "INSERT INTO user (userName, userSurname, userEmail, userPassword, userType) VALUES (?,?,?,?,?)";
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getUserName());
             ps.setString(2, user.getUserSurname());
             ps.setString(3, user.getUserEmail());
             ps.setString(4, user.getUserPassword());
-            ps.setString(5, user.getUserType().name());
+            ps.setString(5, user.getUserType().toString());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
@@ -29,23 +29,24 @@ public class UserManager {
         }
     }
 
-    public User getUserByEmail(String email) {
-        String sql = "SELECT * FROM user WHERE userEmail = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)){
-            ps.setString(1, email);
-            ResultSet rs = ps.executeQuery(sql);
-            if (rs.next()) {
-                return getUserFromResultSet(rs);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+
+public User getUserByEmail(String email) {
+    String sql = "SELECT * FROM user WHERE userEmail = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setString(1, email);
+        ResultSet rs = ps.executeQuery(); // Corrected here
+        if (rs.next()) {
+            return getUserFromResultSet(rs);
         }
-        return null;
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
     }
+    return null;
+}
 
     private User getUserFromResultSet(ResultSet rs) throws SQLException {
         return User.builder()
-                .userId(rs.getInt("userId"))
+                .userId(rs.getInt("userID"))
                 .userName(rs.getString("userName"))
                 .userSurname(rs.getString("userSurname"))
                 .userEmail(rs.getString("userEmail"))
