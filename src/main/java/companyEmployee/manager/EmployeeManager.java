@@ -108,10 +108,17 @@ public class EmployeeManager {
 
     public void updateEmployee(Employee employee) throws SQLException {
         String sql = "UPDATE employee SET employeeName = ?, employeeSurname = ?, employeeEmail = ?, employeePicLink = ?, companyId = ? WHERE employeeId = ?";
-        try {
-            Statement st = connection.createStatement();
-            st.executeUpdate(String.format(sql, employee.getEmployeeName(), employee.getEmployeeSurname(), employee.getEmployeeEmail(), employee.getEmployeePicName(), employee.getCompany().getCompanyId(), employee.getEmployeeId()));
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, employee.getEmployeeName());
+            ps.setString(2, employee.getEmployeeSurname());
+            ps.setString(3, employee.getEmployeeEmail());
+            ps.setString(4, employee.getEmployeePicName());
+            ps.setInt(5, employee.getCompany().getCompanyId());
+            ps.setInt(6, employee.getEmployeeId());
+            ps.executeUpdate();
         } catch (SQLException e) {
+            // Log the exception
+            System.err.println("Error updating employee: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }

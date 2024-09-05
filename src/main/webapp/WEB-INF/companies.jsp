@@ -6,13 +6,14 @@
 <html>
 <head>
     <title>Companies</title>
+
 </head>
 <% List<Company> companies = (List<Company>) request.getAttribute("company");
     User user = (User) session.getAttribute("user");
 %>
 <body>
 <a href="/"> Back </a>
-<h2>Companies</h2> <a href="/createCompany">Create Company</a>
+<h2>Companies</h2> <a href="/createCompany">Create Company</a> <br>
 <table border="1">
     <tr>
         <th>id</th>
@@ -33,7 +34,7 @@
         </td>
         <% if (user.getUserType() == UserType.ADMIN) { %>
 
-        <td><a href="/removeCompany?companyID=<%=company.getCompanyId()%>">Delete</a>
+        <td><a href="/removeCompany?companyID=<%=company.getCompanyId()%>">Delete</a> |
             <a href="/updateCompany?companyID=<%=company.getCompanyId()%>">Update</a></td>
         <%}%>
     </tr>

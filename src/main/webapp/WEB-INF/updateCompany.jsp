@@ -22,6 +22,7 @@
 <html>
 <head>
     <title>Update Company</title>
+
 </head>
 <body>
 <% Company company = (Company) request.getAttribute("company"); %>

@@ -6,6 +6,7 @@
 <html>
 <head>
     <title>Employees</title>
+
 </head>
 <% List<Employee> employees = (List<Employee>) request.getAttribute("employee");
     User user = (User) session.getAttribute("user");
@@ -15,7 +16,7 @@
 %>
 <body>
 <a href="/"> Back </a>
-<h2>Employees</h2> <a href="/createEmployee">Create Employee</a>
+<h2>Employees</h2> <a href="/createEmployee">Create Employee</a> <br>
 <form action="/employees" method="get">
     <input type="text" name="keyword" value="<%=keyword%>">
     <input type="submit" value="search">
@@ -56,7 +57,7 @@
         <% if (user.getUserType() == UserType.ADMIN) { %>
 
         <td><a href="/removeEmployee?employeeID=<%=employee.getEmployeeId()%>">Delete</a>
-<%--            / <a href="updateEmployee?employeeID=<%=employee.getEmployeeId()%>">Update</a></td>--%>
+            | <a href="/updateEmployee?employeeID=<%=employee.getEmployeeId()%>">Update</a></td>
         <%}%>
     </tr>
     <%}%>

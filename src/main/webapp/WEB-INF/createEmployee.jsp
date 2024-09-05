@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Create Employee</title>
+
 </head>
 <%List<Company> companies = (List<Company>) request.getAttribute("company"); %>
 <body>
@@ -22,7 +23,7 @@
     </select><br>
     image:
     <input type="file" name="employeePicLink"> <br>
-    <input type="submit" value="create">
+    <input type="submit" value="Create">
 </form>
 </body>
 </html>
