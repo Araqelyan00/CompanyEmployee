@@ -3,22 +3,47 @@
 <html>
 <head>
     <title>Create Company</title>
-
+    <link rel="stylesheet" href="../css/header_styles.css"/>
+    <link rel="stylesheet" href="../css/main_styles.css"/>
+    <link rel="stylesheet" href="../css/buttons.css"/>
+    <link rel="stylesheet" href="../css/input.css"/>
 </head>
 <%List<String> countries = (List<String>) request.getAttribute("companyCountry"); %>
 <body>
-<a href="/companies"> Back </a>
+<header>
+    <div class="welcome-text-section">
+        <h2>Create Company</h2>
+    </div>
+    <div>
+        <a href="/companies"> Back </a>
+    </div>
+</header>
 
-<h2>Create Company</h2>
+<main>
 <form action="/createCompany" method="post">
-    name: <input type="text" name="companyName"><br>
-    country:
-    <select name="companyCountry">
-        <% for (String country : countries) { %>
-        <option value="<%=country%>"><%=country%></option>
-        <% }%>
-    </select>
-    <input type="submit" value="create">
+    <div  class="field">
+        <div>
+            Name
+        </div>
+        <div>
+            <input type="text" name="companyName"   class="input">
+        </div>
+    </div>
+    <div  class="field">
+        <div>
+            Country
+        </div>
+        <div >
+            <select name="companyCountry" style="width: 250px; border-radius: 4px">
+                <% for (String country : countries) { %>
+                <option value="<%=country%>"><%=country%></option>
+                <% }%>
+            </select>
+        </div>
+    </div>
+
+    <input type="submit" value="Create" class="button">
 </form>
+</main>
 </body>
 </html>
