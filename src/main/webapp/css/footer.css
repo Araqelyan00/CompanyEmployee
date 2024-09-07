@@ -1,0 +1,14 @@
+.pagination {
+    width: 10%;
+    margin: auto;
+    text-align-last: center;
+}
+
+footer{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.link {
+    margin-right: 10px;
+    margin-left: 10px;
+}

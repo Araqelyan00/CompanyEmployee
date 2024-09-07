@@ -21,11 +21,23 @@ public class EmployeesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String keyword = req.getParameter("keyword");
         List<Employee> result = null;
+        int noOfPages = 1;
+        int page = 1;
         if (keyword == null || keyword.equals("")) {
-            result = employeeManager.getAllEmployees();
+            int recordsPerPage = 4;
+            if (req.getParameter("page") != null) {
+                page = Integer.parseInt(req.getParameter("page"));
+            }
+            result = employeeManager.viewAllEmployees((page-1)*recordsPerPage, recordsPerPage);
+            int noOfRecords = employeeManager.getNoOfRecords();
+            noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+
         } else {
             result = employeeManager.search(keyword);
         }
+
+        req.setAttribute("noOfPages", noOfPages);
+        req.setAttribute("currentPage", page);
         req.setAttribute("employee", result);
         req.getRequestDispatcher("WEB-INF/employees.jsp").forward(req, resp);
     }

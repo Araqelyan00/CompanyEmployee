@@ -2,7 +2,7 @@
 <%@ page import="companyEmployee.model.Employee" %>
 <%@ page import="companyEmployee.model.User" %>
 <%@ page import="companyEmployee.model.UserType" %>
-<%@ page import="companyEmployee.model.Company" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../css/main_styles.css"/>
     <link rel="stylesheet" href="../css/buttons.css"/>
     <link rel="stylesheet" href="../css/input.css"/>
+    <link rel="stylesheet" href="../css/footer.css"/>
 </head>
 
 <body>
@@ -18,7 +19,8 @@
     User user = (User) session.getAttribute("user");
     String keyword = request.getParameter("keyword") == null ||
             request.getParameter("keyword").equals("null") ? "" : request.getParameter("keyword");
-
+    Integer noOfPages = (Integer) request.getAttribute("noOfPages");
+    Integer currentPage = (Integer) request.getAttribute("currentPage");
 %>
 
 <header>
@@ -80,6 +82,30 @@
         <%}%>
         <%}%>
     </table>
+
 </main>
+<footer>
+    <%
+        if (noOfPages > 1) {
+    %>
+    <div class="pagination">
+        <%
+            for (int i = 1; i <= noOfPages; i++) {
+                if (i == currentPage) {
+        %>
+        <strong><%= i %></strong>
+        <%
+        } else {
+        %>
+        <a class="link" href="employees?page=<%= i %>"><%= i %></a>
+        <%
+                }
+            }
+        %>
+    </div>
+    <%
+        }
+    %>
+</footer>
 </body>
 </html>

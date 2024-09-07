@@ -10,6 +10,52 @@ import java.util.List;
 public class EmployeeManager {
     private Connection connection = DBConnectionProvider.getInstance().getConnection();
     private CompanyManager companyManager = new CompanyManager();
+    private int noOfRecords;
+
+    public List<Employee> viewAllEmployees(int offset, int noOfRecords) {
+        String query = "SELECT * FROM employee LIMIT ?, ?";
+        String countQuery = "SELECT COUNT(*) FROM employee";
+        List<Employee> list = new ArrayList<>();
+        ResultSet rs = null;
+        try (PreparedStatement ps = connection.prepareStatement(query);
+        PreparedStatement psCount = connection.prepareStatement(countQuery)) {
+            ps.setInt(1, offset);
+            ps.setInt(2, noOfRecords);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Employee employee = new Employee();
+                employee.setEmployeeId(rs.getInt("employeeID"));
+                employee.setEmployeeName(rs.getString("employeeName"));
+                employee.setEmployeeSurname(rs.getString("employeeSurname"));
+                employee.setEmployeeEmail(rs.getString("employeeEmail"));
+                employee.setEmployeePicName(rs.getString("employeePicLink"));
+                int companyId = rs.getInt("companyID");
+                employee.setCompany(companyManager.getCompanyByID(companyId));
+                list.add(employee);
+            }
+            rs.close();
+
+                rs = psCount.executeQuery();
+                if (rs.next()) {
+                    this.noOfRecords = rs.getInt(1);
+                }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
+
+    public int getNoOfRecords() {
+        return noOfRecords;
+    }
 
     public void saveEmployee(Employee employee) {
         try (Statement st = connection.createStatement()) {
@@ -56,20 +102,6 @@ public class EmployeeManager {
         try {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM employee");
-            while (rs.next()) {
-                employees.add(getEmployeeFromResultSet(rs));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return employees;
-    }
-
-    public List<Employee> getAllEmployeesByCompanyId(int companyId) {
-        List<Employee> employees = new ArrayList<>();
-        try {
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM employee where companyId = " + companyId);
             while (rs.next()) {
                 employees.add(getEmployeeFromResultSet(rs));
             }
